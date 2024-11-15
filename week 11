@@ -1,1 +1,53 @@
-
+GitHub Commands
+git init: Initializes a new Git repository in the current directory.
+git clone <repo_url>: Clones an existing Git repository from a URL to your local machine.
+Configuration
+git config --global user.name "Your Name": Sets your username.
+git config --global user.email "your.email@example.com": Sets your email address.
+git config --global color.ui auto: Enables color-coded output in Git.
+Status and Logs
+git status: Shows the working directory and staging area status.
+git log: Displays a log of commits on the current branch.
+git log --oneline: Shows a simplified log with each commit on one line.
+Staging and Committing Changes
+git add <file>: Stages a specific file.
+git add .: Stages all changes in the current directory.
+git commit -m "commit message": Commits staged changes with a message.
+git commit -a -m "commit message": Commits all tracked changes with a message (without using git add).
+Branching
+git branch: Lists all branches in the repository.
+git branch <branch_name>: Creates a new branch.
+git checkout <branch_name>: Switches to the specified branch.
+git checkout -b <branch_name>: Creates and switches to a new branch.
+git branch -d <branch_name>: Deletes a branch locally.
+Merging and Rebasing
+git merge <branch_name>: Merges the specified branch into the current branch.
+git rebase <branch_name>: Replays commits on top of another branch (used for cleaner commit history).
+Undoing Changes
+git reset --soft <commit_hash>: Resets the staging area to a specific commit (keeps changes).
+git reset --hard <commit_hash>: Resets the working directory and staging area to a specific commit (deletes changes).
+git checkout -- <file>: Discards changes in a specific file.
+Pushing and Pulling
+git push <remote> <branch_name>: Pushes changes from the local branch to a remote branch.
+git pull <remote> <branch_name>: Pulls changes from the remote branch to the local branch.
+git fetch <remote>: Fetches all changes from a remote without merging.
+Remote Management
+git remote add <name> <url>: Adds a new remote repository.
+git remote -v: Lists all remotes and their URLs.
+git remote remove <name>: Removes a remote.
+Stashing
+git stash: Stashes changes in a dirty working directory.
+git stash apply: Re-applies the latest stash.
+git stash list: Lists all stashes.
+git stash drop: Deletes the latest stash.
+Tags
+git tag <tag_name>: Creates a tag at the current commit.
+git tag: Lists all tags.
+git tag -d <tag_name>: Deletes a local tag.
+Viewing Differences
+git diff: Shows differences between the working directory and the staging area.
+git diff <branch_name>: Shows differences between the current branch and another branch.
+Advanced Commands
+git cherry-pick <commit_hash>: Applies a specific commit from another branch onto the current branch.
+git revert <commit_hash>: Creates a new commit that undoes the changes from a specific commit.
+git bisect: Helps identify a specific commit that introduced a bug by performing a binary search.
