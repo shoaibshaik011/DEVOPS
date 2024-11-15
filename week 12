@@ -1,1 +1,127 @@
+Jenkins Commands and steps
+1. Install Jenkins
+Ubuntu/Debian
+Update system and install prerequisites:
+bash
+Copy code
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+Add Jenkins repository and install:
+bash
+Copy code
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+    /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins -y
+Red Hat/CentOS
+Install OpenJDK:
 
+bash
+Copy code
+sudo yum install java-11-openjdk -y
+Add Jenkins repository and install:
+
+bash
+Copy code
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+sudo yum install jenkins -y
+Start Jenkins:
+
+bash
+Copy code
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+Access Jenkins by visiting http://localhost:8080 and use the initial password found in /var/lib/jenkins/secrets/initialAdminPassword.
+
+2. Configure Jenkins
+Initial Admin Setup: Complete the initial setup by unlocking Jenkins, installing suggested plugins, and creating an admin user.
+
+Install Essential Plugins:
+
+Pipeline: To create and manage CI/CD pipelines.
+Git: To pull code from Git repositories.
+Docker: If deploying to Docker containers.
+GitHub Integration: For GitHub projects.
+Blue Ocean: For a more visual pipeline interface.
+3. Create a New Job or Pipeline
+Freestyle Project:
+
+Go to Dashboard > New Item.
+Choose Freestyle Project.
+Configure Source Code Management by connecting to Git/GitHub/Bitbucket.
+Add Build Triggers (e.g., poll SCM, build periodically).
+Configure Build Steps (e.g., Execute shell commands, run a build script).
+Pipeline Job:
+
+Go to Dashboard > New Item.
+Choose Pipeline.
+Set up a Pipeline Definition (either a Pipeline Script directly or from a Jenkinsfile in your repository).
+4. Write a Jenkinsfile (Pipeline as Code)
+A Jenkinsfile defines the pipeline stages and steps as code. Here’s a basic example:
+
+groovy
+Copy code
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/user/repository.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'make build'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'make test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'make deploy'
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+5. Automate Pipeline Triggers
+Configure Poll SCM for periodic checks:
+bash
+Copy code
+H/5 * * * *   # Every 5 minutes
+Enable Webhooks in GitHub or GitLab to trigger Jenkins on every push.
+6. Running Jenkins Jobs
+To manually trigger:
+
+Go to Dashboard > select job > click Build Now.
+View Console Output for real-time logs.
+7. Integrate Notifications
+Install plugins (e.g., Slack, Email) for notifications:
+
+Go to Manage Jenkins > Manage Plugins > search for notification plugins.
+Configure notification settings in the Post-build Actions section.
+8. Manage Artifacts
+Artifacts (e.g., build files) can be stored and archived by adding archiveArtifacts in the Jenkinsfile or in the job configuration under Post-build Actions.
+
+9. Set Up Security
+Enable Role-based Access Control.
+Go to Manage Jenkins > Configure Global Security > configure Matrix-based security.
